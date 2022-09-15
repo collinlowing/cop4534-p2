@@ -1,15 +1,9 @@
 /***************************************************************
   Student Name: Collin Lowing
-  File Name: main.cpp
+  File Name: Simulation.cpp
   Project 2
 
-  Runs methods for Simulation class
+  Simulation runner. Calls all methods to drive simulation processes.
 ***************************************************************/
 
-#include <iostream>
 #include "Simulation.hpp"
-
-int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
-}
