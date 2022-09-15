@@ -1,6 +1,6 @@
 /***************************************************************
   Student Name: Collin Lowing
-  File Name: Event.cpp
+  File Name: Event.hpp
   Project 2
 
   Stores information for event handling.

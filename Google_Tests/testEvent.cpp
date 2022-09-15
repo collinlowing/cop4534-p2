@@ -1,10 +1,7 @@
 /***************************************************************
   Student Name: Collin Lowing
-  File Name: Event.cpp
+  File Name: testEvent.cpp
   Project 2
 
-  Stores information for event handling.
-  Arrival or Departure, Priority, Completion Time
+  test event methods
 ***************************************************************/
-
-#include "Event.hpp"
