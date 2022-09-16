@@ -12,6 +12,20 @@
 
 class AnalyticalModel {
 
+public:
+    AnalyticalModel(int lambda, int mu, int M);
+
+    double getPercentIdleTime();
+
+    double getAverageTotalPeople();
+
+    double getAverageTimeSpent();
+
+    double getAverageNumberInQueue();
+
+    double getAverageTimeWaitingInQueue();
+
+    double getProportionOfResourcesUsedByArrivals();
 };
 
 
