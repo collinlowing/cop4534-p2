@@ -11,7 +11,12 @@
 
 
 class AnalyticalModel {
+private:
+    int lambda;
 
+    int mu;
+
+    int M;
 public:
     AnalyticalModel(int lambda, int mu, int M);
 
@@ -26,6 +31,10 @@ public:
     double getAverageTimeWaitingInQueue();
 
     double getProportionOfResourcesUsedByArrivals();
+
+    static double getFactorial(int number);
+
+    static double getPower(double base, double exponent);
 };
 
 

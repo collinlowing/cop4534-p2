@@ -9,11 +9,34 @@
 #include "AnalyticalModel.hpp"
 
 AnalyticalModel::AnalyticalModel(int lambda, int mu, int M) {
-
+    this->lambda = lambda;
+    this->mu = mu;
+    this->M = M;
 }
 
 double AnalyticalModel::getPercentIdleTime() {
-    return 0;
+    double result = 0;
+    double sum = 0;
+    double denominator = 0;
+
+    // calculate summation from 0 to M-1
+    for(int i = 0; i < M - 1; i++)
+    {
+        double factorialI = getFactorial(i);
+        double powerBase = lambda / mu;
+
+        sum += (1 / factorialI) * getPower(powerBase, i);
+    }
+
+    // calculate remaining denominator
+    denominator = (1 / getFactorial(M))
+                  * getPower((lambda / mu), M)
+                  * (M * mu) / ((M * mu) - lambda);
+
+    // get final value for Po
+    result = 1 / (sum + denominator);
+
+    return result;
 }
 
 double AnalyticalModel::getAverageTotalPeople() {
@@ -33,5 +56,28 @@ double AnalyticalModel::getAverageTimeWaitingInQueue() {
 }
 
 double AnalyticalModel::getProportionOfResourcesUsedByArrivals() {
-    return 0;
+    double result = lambda / (mu * M);
+
+    return result;
+}
+
+double AnalyticalModel::getFactorial(int number) {
+    double factorial = 1;
+
+    for(int i = 1; i <= number; i++) {
+        factorial *= i;
+    }
+
+    return factorial;
+}
+
+double AnalyticalModel::getPower(double base, double exponent) {
+    double result = 1;
+
+    while(exponent != 0) {
+        result *= base;
+        --exponent;
+    }
+
+    return result;
 }
