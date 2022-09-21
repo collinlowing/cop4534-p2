@@ -9,9 +9,14 @@
 #ifndef COP4534_P2_FILEPARSER_HPP
 #define COP4534_P2_FILEPARSER_HPP
 
+#include <string>
+#include <fstream>
+#include <iostream>
+#include <vector>
 
 class FileParser {
-
+public:
+    static std::vector<int> getTestValuesFromFile(std::string fileName);
 };
 
 
