@@ -12,11 +12,11 @@
 
 class AnalyticalModel {
 private:
-    int lambda;
+    double lambda;
 
-    int mu;
+    double mu;
 
-    int M;
+    double M;
 public:
     AnalyticalModel(int lambda, int mu, int M);
 

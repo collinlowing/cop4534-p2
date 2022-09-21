@@ -40,19 +40,32 @@ double AnalyticalModel::getPercentIdleTime() {
 }
 
 double AnalyticalModel::getAverageTotalPeople() {
-    return 0;
+    double result = 0;
+    double numerator = 0;
+    double denominator = 0;
+
+    numerator = lambda * mu * getPower((lambda / mu), M);
+    denominator = getFactorial(M - 1) * getPower((M * mu - lambda), 2);
+
+    result = numerator / denominator;
+
+    result *= getPercentIdleTime();
+
+    result += (lambda / mu);
+
+    return result;
 }
 
 double AnalyticalModel::getAverageTimeSpent() {
-    return 0;
+    return getAverageTotalPeople() / lambda;
 }
 
 double AnalyticalModel::getAverageNumberInQueue() {
-    return 0;
+    return getAverageTotalPeople() - (lambda / mu);
 }
 
 double AnalyticalModel::getAverageTimeWaitingInQueue() {
-    return 0;
+    return getAverageNumberInQueue() / lambda;
 }
 
 double AnalyticalModel::getProportionOfResourcesUsedByArrivals() {
@@ -74,7 +87,7 @@ double AnalyticalModel::getFactorial(int number) {
 double AnalyticalModel::getPower(double base, double exponent) {
     double result = 1;
 
-    while(exponent != 0) {
+    while(exponent > 0) {
         result *= base;
         --exponent;
     }
