@@ -7,3 +7,11 @@
 ***************************************************************/
 
 #include "Simulation.hpp"
+
+double Simulation::getNextRandomInterval(double avg) {
+    std::random_device rd;
+    std::default_random_engine eng(rd());
+    std::uniform_real_distribution<double> distr(INTERVAL_MIN, INTERVAL_MAX);
+
+    return distr(eng);
+}
