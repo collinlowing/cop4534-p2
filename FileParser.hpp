@@ -16,7 +16,7 @@
 
 class FileParser {
 public:
-    static std::vector<int> getTestValuesFromFile(std::string fileName);
+    std::vector<int> getTestValuesFromFile(std::string fileName);
 };
 
 
