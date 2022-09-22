@@ -19,7 +19,7 @@ TEST(AnalyticalModelTests, getPercentIdleTime) {
     // action
     double Po = am.getPercentIdleTime();
     // assert
-    EXPECT_EQ(Po, expectedPo);
+    EXPECT_TRUE(am.isDoubleEqual(Po, expectedPo));
 }
 
 TEST(AnalyticalModelTests, getAverageTotalPeople) {
@@ -32,7 +32,7 @@ TEST(AnalyticalModelTests, getAverageTotalPeople) {
     // action
     double L = am.getAverageTotalPeople();
     // assert
-    EXPECT_EQ(L, expectedL);
+    EXPECT_TRUE(am.isDoubleEqual(L, expectedL));
 }
 
 TEST(AnalyticalModelTests, getAverageTimeSpent) {
@@ -45,7 +45,7 @@ TEST(AnalyticalModelTests, getAverageTimeSpent) {
     // action
     double W = am.getAverageTimeSpent();
     // assert
-    EXPECT_EQ(W, expectedW);
+    EXPECT_TRUE(am.isDoubleEqual(W, expectedW));
 }
 
 TEST(AnalyticalModelTests, getAverageNumberInQueue) {
@@ -58,7 +58,7 @@ TEST(AnalyticalModelTests, getAverageNumberInQueue) {
     // action
     double Lq = am.getAverageNumberInQueue();
     // assert
-    EXPECT_EQ(Lq, expectedLq);
+    EXPECT_TRUE(am.isDoubleEqual(Lq, expectedLq));
 }
 
 TEST(AnalyticalModelTests, getAverageTimeWaitingInQueue) {
@@ -71,7 +71,7 @@ TEST(AnalyticalModelTests, getAverageTimeWaitingInQueue) {
     // action
     double Wq = am.getAverageTimeWaitingInQueue();
     // assert
-    EXPECT_EQ(Wq, expectedWq);
+    EXPECT_TRUE(am.isDoubleEqual(Wq, expectedWq));
 }
 
 // proportion of the system's resources which is used by the traffic
@@ -86,5 +86,5 @@ TEST(AnalyticalModelTests, getProportionOfResourcesUsedByArrivals) {
     // action
     double rho = am.getProportionOfResourcesUsedByArrivals();
     // assert
-    EXPECT_EQ(rho, expectedRho);
+    EXPECT_TRUE(am.isDoubleEqual(rho, expectedRho));
 }

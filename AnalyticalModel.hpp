@@ -35,6 +35,8 @@ public:
     static double getFactorial(int number);
 
     static double getPower(double base, double exponent);
+
+    static bool isDoubleEqual(double a, double b);
 };
 
 

@@ -6,6 +6,7 @@
   Perform calculations using values given by test files
 ***************************************************************/
 
+#include <cmath>
 #include "AnalyticalModel.hpp"
 
 AnalyticalModel::AnalyticalModel(int lambda, int mu, int M) {
@@ -93,4 +94,8 @@ double AnalyticalModel::getPower(double base, double exponent) {
     }
 
     return result;
+}
+
+bool AnalyticalModel::isDoubleEqual(double a, double b) {
+    return std::fabs(a - b) < 1E-3;
 }
