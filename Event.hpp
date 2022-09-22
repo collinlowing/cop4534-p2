@@ -11,8 +11,28 @@
 #define COP4534_P2_EVENT_HPP
 
 
-class Event {
 
+class Event {
+private:
+    int type = ARRIVAL;
+    int priority = 0;
+    double processTime = 0;
+public:
+    enum types{ARRIVAL, DEPARTURE};
+
+    Event(int type, int priority, int processTime);
+
+    int getType() const;
+
+    void setType(int type);
+
+    int getPriority() const;
+
+    void setPriority(int priority);
+
+    double getProcessTime() const;
+
+    void setProcessTime(double processTime);
 };
 
 
