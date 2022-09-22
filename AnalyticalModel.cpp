@@ -20,7 +20,7 @@ double AnalyticalModel::getPercentIdleTime() {
     double denominator = 0;
 
     // calculate summation from 0 to M-1
-    for(int i = 0; i < M - 1; i++)
+    for(int i = 0; i <= M - 1; i++)
     {
         double factorialI = getFactorial(i);
         double powerBase = lambda / mu;
