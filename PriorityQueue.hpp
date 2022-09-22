@@ -10,9 +10,18 @@
 #ifndef COP4534_P2_PRIORITYQUEUE_HPP
 #define COP4534_P2_PRIORITYQUEUE_HPP
 
+#include "Event.hpp"
 
 class PriorityQueue {
-
+private:
+    static int MAX_SIZE;
+    Event **priorityQueue;
+    int current = -1; // empty by default
+public:
+    PriorityQueue(int MAX_SIZE);
+    void enqueue(int type, int priority, int processTime);
+    Event* getTopEvent();
+    void dequeue();
 };
 
 

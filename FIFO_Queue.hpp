@@ -10,6 +10,7 @@
 #ifndef COP4534_P2_FIFO_QUEUE_HPP
 #define COP4534_P2_FIFO_QUEUE_HPP
 
+#include "Event.hpp"
 
 class FIFO_Queue {
 
