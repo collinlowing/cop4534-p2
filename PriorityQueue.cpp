@@ -23,10 +23,24 @@ void PriorityQueue::enqueue(int type, int priority, int processTime) {
 }
 
 Event *PriorityQueue::getTopEvent() {
-    int HighestPriority = -1;
-    std::size_t = -1;
+    int highestPriority = -1;
+    std::size_t index = 0;
 
-    return nullptr;
+    for(int i = 0; i <= current; i++) {
+        if(highestPriority == priorityQueue[i]->getPriority()
+            && index >= 0
+            && priorityQueue[index]->getProcessTime()
+                    < priorityQueue[i]->getProcessTime()) {
+            highestPriority = priorityQueue[i]->getPriority();
+            index = i;
+        }
+        else if (highestPriority < priorityQueue[i]->getPriority()) {
+            highestPriority = priorityQueue[i]->getPriority();
+            index = i;
+        }
+    }
+
+    return priorityQueue[index];
 }
 
 void PriorityQueue::dequeue() {

@@ -11,10 +11,11 @@
 #define COP4534_P2_PRIORITYQUEUE_HPP
 
 #include "Event.hpp"
+#include <cstdio>
 
 class PriorityQueue {
 private:
-    static int MAX_SIZE;
+    int MAX_SIZE;
     Event **priorityQueue;
     int current = -1; // empty by default
 public:
