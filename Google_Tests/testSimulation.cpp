@@ -5,3 +5,10 @@
 
   tests Simulation class methods
 ***************************************************************/
+
+#include "gtest/gtest.h"
+#include "../Simulation.hpp"
+
+TEST(SimulationTests, test) {
+
+}
