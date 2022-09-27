@@ -23,6 +23,8 @@ public:
     void enqueue(int type, int priority, int processTime);
     Event* getTopEvent();
     void dequeue();
+
+    int getTopIndex();
 };
 
 

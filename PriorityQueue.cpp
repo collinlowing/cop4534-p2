@@ -44,5 +44,32 @@ Event *PriorityQueue::getTopEvent() {
 }
 
 void PriorityQueue::dequeue() {
+    int index = getTopIndex();
 
+    for(int i = index; i < current; i++) {
+        priorityQueue[i] = priorityQueue[i + 1];
+    }
+
+    --current;
+}
+
+int PriorityQueue::getTopIndex() {
+    int highestPriority = -1;
+    std::size_t index = 0;
+
+    for(int i = 0; i <= current; i++) {
+        if(highestPriority == priorityQueue[i]->getPriority()
+           && index >= 0
+           && priorityQueue[index]->getProcessTime()
+              < priorityQueue[i]->getProcessTime()) {
+            highestPriority = priorityQueue[i]->getPriority();
+            index = i;
+        }
+        else if (highestPriority < priorityQueue[i]->getPriority()) {
+            highestPriority = priorityQueue[i]->getPriority();
+            index = i;
+        }
+    }
+
+    return index;
 }
