@@ -8,3 +8,15 @@
 ***************************************************************/
 
 #include "FIFO_Queue.hpp"
+
+void FIFO_Queue::insertBack(Event *event) {
+
+}
+
+void FIFO_Queue::deleteFront() {
+
+}
+
+Event *FIFO_Queue::getEvent() {
+    return nullptr;
+}

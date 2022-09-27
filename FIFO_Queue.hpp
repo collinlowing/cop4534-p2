@@ -13,7 +13,12 @@
 #include "Event.hpp"
 
 class FIFO_Queue {
-
+private:
+    Event ** queue;
+public:
+    void insertBack(Event* event);
+    void deleteFront();
+    Event *getEvent();
 };
 
 
