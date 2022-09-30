@@ -17,7 +17,7 @@ TEST(FIFOQueueTests, insertEvent) {
 
     fifoQueue.insertBack(event);
 
-    Event * testEvent = fifoQueue.getEvent();
+    Event * testEvent = fifoQueue.getFront();
 
     ASSERT_FALSE(testEvent == nullptr);
     EXPECT_EQ(testEvent->getPriority(), expectedPriority);
@@ -36,7 +36,7 @@ TEST(FIFOQueueTests, deleteEvent) {
     fifoQueue.insertBack(event1);
     fifoQueue.insertBack(event2);
 
-    Event * testEvent = fifoQueue.getEvent();
+    Event * testEvent = fifoQueue.getFront();
 
     ASSERT_FALSE(testEvent == nullptr);
     EXPECT_EQ(testEvent->getPriority(), priority1);
@@ -44,7 +44,7 @@ TEST(FIFOQueueTests, deleteEvent) {
 
     fifoQueue.deleteFront();
 
-    testEvent = fifoQueue.getEvent();
+    testEvent = fifoQueue.getFront();
 
     ASSERT_FALSE(testEvent == nullptr);
     EXPECT_EQ(testEvent->getPriority(), priority2);

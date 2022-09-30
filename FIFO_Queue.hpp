@@ -11,14 +11,19 @@
 #define COP4534_P2_FIFO_QUEUE_HPP
 
 #include "Event.hpp"
+#include <vector>
 
 class FIFO_Queue {
 private:
-    Event ** queue;
+    std::vector<Event*> queue;
+    Event * back;
+    int queueSize;
 public:
+    FIFO_Queue();
     void insertBack(Event* event);
     void deleteFront();
-    Event *getEvent();
+    Event *getFront();
+    int size();
 };
 
 
