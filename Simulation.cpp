@@ -58,7 +58,7 @@ Event* Simulation::processDeparture() {
 }
 
 std::string Simulation::printResults() {
-    AnalyticalModel model(lambda, mu, M, numberOfEvents);
+    AnalyticalModel model(lambda, mu, M);
     double theoryPo = model.getPercentIdleTime();
     double theoryL = model.getAverageTotalPeople();
     double theoryW = model.getAverageTimeSpent();
