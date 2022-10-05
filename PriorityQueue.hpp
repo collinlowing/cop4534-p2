@@ -19,8 +19,8 @@ private:
     Event **priorityQueue;
     int current = -1; // empty by default
 public:
-    PriorityQueue(int MAX_SIZE);
-    void enqueue(int type, int priority, int processTime);
+    explicit PriorityQueue(int MAX_SIZE);
+    void enqueue(int type, double processTime);
     Event* getTopEvent();
     void dequeue();
 

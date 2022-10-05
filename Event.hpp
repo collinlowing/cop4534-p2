@@ -15,20 +15,22 @@
 class Event {
 private:
     int type = ARRIVAL;
-    int priority = 0;
+    double serviceTimeStart = 0;
+public:
+    double getServiceTimeStart() const;
+
+    void setServiceTimeStart(double serviceTimeStart);
+
+private:
     double processTime = 0;
 public:
     enum types{ARRIVAL, DEPARTURE};
 
-    Event(int type, int priority, int processTime);
+    Event(int type, double processTime);
 
     int getType() const;
 
     void setType(int type);
-
-    int getPriority() const;
-
-    void setPriority(int priority);
 
     double getProcessTime() const;
 

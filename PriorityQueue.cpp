@@ -14,28 +14,27 @@ PriorityQueue::PriorityQueue(int MAX_SIZE) {
     priorityQueue = new Event*[MAX_SIZE];
 }
 
-void PriorityQueue::enqueue(int type, int priority, int processTime) {
+void PriorityQueue::enqueue(int type, double processTime) {
     // increase the allocated current size
     current++;
 
     // insert the new event
-    priorityQueue[current] = new Event(type, priority, processTime);
+    priorityQueue[current] = new Event(type, processTime);
 }
 
 Event *PriorityQueue::getTopEvent() {
-    int highestPriority = -1;
+    double highestPriority = -1;
     std::size_t index = 0;
 
     for(int i = 0; i <= current; i++) {
-        if(highestPriority == priorityQueue[i]->getPriority()
-            && index >= 0
+        if(highestPriority == priorityQueue[i]->getProcessTime()
             && priorityQueue[index]->getProcessTime()
-                    < priorityQueue[i]->getProcessTime()) {
-            highestPriority = priorityQueue[i]->getPriority();
+                    > priorityQueue[i]->getProcessTime()) {
+            highestPriority = priorityQueue[i]->getProcessTime();
             index = i;
         }
-        else if (highestPriority < priorityQueue[i]->getPriority()) {
-            highestPriority = priorityQueue[i]->getPriority();
+        else if (highestPriority > priorityQueue[i]->getProcessTime()) {
+            highestPriority = priorityQueue[i]->getProcessTime();
             index = i;
         }
     }
@@ -58,15 +57,14 @@ int PriorityQueue::getTopIndex() {
     std::size_t index = 0;
 
     for(int i = 0; i <= current; i++) {
-        if(highestPriority == priorityQueue[i]->getPriority()
-           && index >= 0
+        if(highestPriority == priorityQueue[i]->getProcessTime()
            && priorityQueue[index]->getProcessTime()
-              < priorityQueue[i]->getProcessTime()) {
-            highestPriority = priorityQueue[i]->getPriority();
+              > priorityQueue[i]->getProcessTime()) {
+            highestPriority = priorityQueue[i]->getProcessTime();
             index = i;
         }
-        else if (highestPriority < priorityQueue[i]->getPriority()) {
-            highestPriority = priorityQueue[i]->getPriority();
+        else if (highestPriority > priorityQueue[i]->getProcessTime()) {
+            highestPriority = priorityQueue[i]->getProcessTime();
             index = i;
         }
     }

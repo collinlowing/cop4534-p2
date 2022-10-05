@@ -57,6 +57,8 @@ public:
     double getPercentIdleTime();
 
     double getAverageTimeSpent();
+
+    ~Simulation();
 };
 
 

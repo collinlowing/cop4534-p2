@@ -10,7 +10,7 @@
 #include "../Simulation.hpp"
 
 TEST(SimulationTests, test) {
-    Simulation sim;
+    Simulation sim(2,4,3,2000);
 
     for(int i = 0; i < 10; i++)
     {

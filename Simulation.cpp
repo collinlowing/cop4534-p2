@@ -117,3 +117,7 @@ double Simulation::getUtilizationFactor() {
 double Simulation::getAverageWaitTime() {
     return waitingTime / numEventsWait;
 }
+
+Simulation::~Simulation() {
+    delete priorityQueue;
+}
