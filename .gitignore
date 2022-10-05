@@ -108,3 +108,6 @@ fabric.properties
 *.exe
 *.out
 *.app
+
+# office
+.~lock*
