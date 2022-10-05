@@ -12,6 +12,7 @@
 #include <random>
 #include <iomanip>
 #include <iostream>
+#include <sstream>
 #include "AnalyticalModel.hpp"
 #include "FIFO_Queue.hpp"
 #include "PriorityQueue.hpp"
@@ -29,7 +30,8 @@ private:
     double serviceTime = 0;
     const int INTERVAL_MIN = 0;
     const int INTERVAL_MAX = 1;
-    PriorityQueue priorityQueue(200); // Max size is 200;
+    const int MAX_SIZE = 200;
+    PriorityQueue* priorityQueue;
     FIFO_Queue fifoQueue;
 public:
     Simulation(int lambda, int mu, int M, int numberOfEvents);

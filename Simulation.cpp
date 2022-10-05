@@ -13,6 +13,7 @@ Simulation::Simulation(int lambda, int mu, int M, int numberOfEvents) {
     this->mu = mu;
     this->M = M;
     this->numberOfEvents = numberOfEvents;
+    priorityQueue = new PriorityQueue(MAX_SIZE);
 }
 
 double Simulation::getNextRandomInterval(double avg) {
