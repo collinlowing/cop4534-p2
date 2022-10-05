@@ -10,5 +10,10 @@
 #include "../Simulation.hpp"
 
 TEST(SimulationTests, test) {
+    Simulation sim;
 
+    for(int i = 0; i < 10; i++)
+    {
+        std::cout << sim.getNextRandomInterval(2) << std::endl;
+    }
 }
