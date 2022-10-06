@@ -82,10 +82,19 @@ void Simulation::processNextEvent(int type) {
         // check if events are waiting in fifoQueue
         if(fifoQueue.size() == 0) {
             Event * event = fifoQueue.getFront();
-            double startOfServiceTime = event->getServiceTimeStart();
+            // calculate time intervals for departure
+            double startOfServiceTime = event->getArrivalTime() + totalSimulationTime;
             double timeInterval = getNextRandomInterval(mu);
             double departureTime = startOfServiceTime + timeInterval;
-            priorityQueue->enqueue(Event::DEPARTURE, departureTime);
+
+            // set time intervals for event departure
+            event->setDepartureTime(departureTime);
+            event->setServiceTimeStart(startOfServiceTime);
+            event->setType(Event::DEPARTURE);
+
+            priorityQueue->dequeue(); // delete arrival
+            priorityQueue->enqueue(event); // add departure
+
             --serverAvailableCount;
             fifoQueue.deleteFront();
         }
@@ -164,13 +173,14 @@ bool Simulation::isMoreArrivals() {
 void Simulation::processStatistics() {
     Event * event = priorityQueue->getTopEvent();
     double currentWaitTime = event->getServiceTimeStart() - event->getArrivalTime();
+
     if(currentWaitTime > 0) {
         numEventsWait++;
     }
 
     totalWaitTime += currentWaitTime;
     totalServiceTime += event->getDepartureTime() - event->getServiceTimeStart();
-    if(serverAvailableCount == M) {
+    if(serverAvailableCount == M && !priorityQueue->isEmpty()) {
         Event* nextEvent = priorityQueue->getNextArrival();
         totalIdleTime += nextEvent->getArrivalTime();
     }

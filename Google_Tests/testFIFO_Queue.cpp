@@ -11,7 +11,7 @@
 
 TEST(FIFOQueueTests, insertEvent) {
     FIFO_Queue fifoQueue;
-    int expectedProcessTime = 2;
+    int expectedInterval = 2;
     Event * event = new Event(Event::ARRIVAL,2);
 
     fifoQueue.insertBack(event);
@@ -19,13 +19,13 @@ TEST(FIFOQueueTests, insertEvent) {
     Event * testEvent = fifoQueue.getFront();
 
     ASSERT_FALSE(testEvent == nullptr);
-    EXPECT_EQ(testEvent->getProcessTime(), expectedProcessTime);
+    EXPECT_EQ(testEvent->getInterval(), expectedInterval);
 }
 
 TEST(FIFOQueueTests, deleteEvent) {
     FIFO_Queue fifoQueue;
-    int processTime1 = 2;
-    int processTime2 = 4;
+    int timeInterval1 = 2;
+    int timeInterval2 = 4;
     Event * event1 = new Event(Event::ARRIVAL,2);
     Event * event2 = new Event(Event::DEPARTURE,4);
 
@@ -35,12 +35,12 @@ TEST(FIFOQueueTests, deleteEvent) {
     Event * testEvent = fifoQueue.getFront();
 
     ASSERT_FALSE(testEvent == nullptr);
-    EXPECT_EQ(testEvent->getProcessTime(), processTime1);
+    EXPECT_EQ(testEvent->getInterval(), timeInterval1);
 
     fifoQueue.deleteFront();
 
     testEvent = fifoQueue.getFront();
 
     ASSERT_FALSE(testEvent == nullptr);
-    EXPECT_EQ(testEvent->getProcessTime(), processTime2);
+    EXPECT_EQ(testEvent->getInterval(), timeInterval2);
 }

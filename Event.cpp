@@ -27,14 +27,6 @@ void Event::setType(int type) {
     this->type = type;
 }
 
-double Event::getProcessTime() const {
-    return processTime;
-}
-
-void Event::setProcessTime(double processTime) {
-    this->processTime = processTime;
-}
-
 double Event::getServiceTimeStart() const {
     return serviceTimeStart;
 }
@@ -57,4 +49,16 @@ double Event::getDepartureTime() const {
 
 void Event::setDepartureTime(double departureTime) {
     this->departureTime = departureTime;
+}
+
+double Event::getInterval() {
+    double interval;
+    if(type == Event::ARRIVAL) {
+        interval = arrivalTime;
+    }
+    else {
+        interval = departureTime;
+    }
+
+    return interval;
 }

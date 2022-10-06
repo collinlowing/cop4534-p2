@@ -33,14 +33,16 @@ Event *PriorityQueue::getTopEvent() {
     std::size_t index = 0;
 
     for(int i = 0; i <= current; i++) {
-        if(highestPriority == priorityQueue[i]->getProcessTime()
-            && priorityQueue[index]->getProcessTime()
-                    > priorityQueue[i]->getProcessTime()) {
-            highestPriority = priorityQueue[i]->getProcessTime();
+        double interval = priorityQueue[i]->getInterval();
+
+        if(highestPriority == interval
+            && priorityQueue[index]->getInterval()
+                    > interval) {
+            highestPriority = interval;
             index = i;
         }
-        else if (highestPriority > priorityQueue[i]->getProcessTime()) {
-            highestPriority = priorityQueue[i]->getProcessTime();
+        else if (highestPriority > interval) {
+            highestPriority = interval;
             index = i;
         }
     }
@@ -63,14 +65,15 @@ int PriorityQueue::getTopIndex() {
     std::size_t index = 0;
 
     for(int i = 0; i <= current; i++) {
-        if(highestPriority == priorityQueue[i]->getProcessTime()
-           && priorityQueue[index]->getProcessTime()
-              > priorityQueue[i]->getProcessTime()) {
-            highestPriority = priorityQueue[i]->getProcessTime();
+        double interval = priorityQueue[i]->getInterval();
+        if(highestPriority == interval
+           && priorityQueue[index]->getInterval()
+              > interval) {
+            highestPriority = interval;
             index = i;
         }
-        else if (highestPriority > priorityQueue[i]->getProcessTime()) {
-            highestPriority = priorityQueue[i]->getProcessTime();
+        else if (highestPriority > interval) {
+            highestPriority = interval;
             index = i;
         }
     }

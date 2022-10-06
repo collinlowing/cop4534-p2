@@ -11,7 +11,7 @@
 
 TEST(PriorityQueueTests, enqueue) {
     PriorityQueue pr(200);
-    double expectedProcessTime = 2.1214;
+    double expectedInterval = 2.1214;
 
     pr.enqueue(Event::ARRIVAL, 2.1214);
 
@@ -20,7 +20,7 @@ TEST(PriorityQueueTests, enqueue) {
     ASSERT_FALSE(event == nullptr);
 
     EXPECT_EQ(event->getType(), Event::ARRIVAL);
-    EXPECT_EQ(event->getProcessTime(), expectedProcessTime);
+    EXPECT_EQ(event->getInterval(), expectedInterval);
 }
 
 TEST(PriorityQueueTests, dequeue) {
@@ -36,7 +36,7 @@ TEST(PriorityQueueTests, dequeue) {
     ASSERT_FALSE(event == nullptr);
 
     EXPECT_EQ(event->getType(), Event::ARRIVAL);
-    EXPECT_EQ(event->getProcessTime(), highestPriority);
+    EXPECT_EQ(event->getInterval(), highestPriority);
 
     pr.dequeue();
     Event* nextEvent = pr.getTopEvent();
@@ -44,5 +44,5 @@ TEST(PriorityQueueTests, dequeue) {
     ASSERT_FALSE(nextEvent == nullptr);
 
     EXPECT_EQ(nextEvent->getType(), Event::DEPARTURE);
-    EXPECT_EQ(nextEvent->getProcessTime(), lowestPriority);
+    EXPECT_EQ(nextEvent->getInterval(), lowestPriority);
 }

@@ -38,6 +38,8 @@ public:
     double getDepartureTime() const;
 
     void setDepartureTime(double departureTime);
+
+    double getInterval();
 };
 
 
