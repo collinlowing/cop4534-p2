@@ -23,11 +23,14 @@ private:
     int mu;
     int M;
     int numberOfEvents;
+    int numberOfArrivals = 0;
+    int numberOfDepartures = 0;
+    int serverAvailableCount = 0;
     double totalSimulationTime = 0;
     int numEventsWait = 0;
-    double idleTime = 0;
-    double waitingTime = 0;
-    double serviceTime = 0;
+    double totalIdleTime = 0;
+    double totalWaitTime = 0;
+    double totalServiceTime = 0;
     const int INTERVAL_MIN = 0;
     const int INTERVAL_MAX = 1;
     const int MAX_SIZE = 200;
@@ -42,10 +45,6 @@ public:
 
     void startSimulation();
 
-    Event* processArrival();
-
-    Event* processDeparture();
-
     double getAverageWaitTime();
 
     double getUtilizationFactor();
@@ -59,6 +58,12 @@ public:
     double getAverageTimeSpent();
 
     ~Simulation();
+
+    void processNextEvent(int type);
+
+    bool isMoreArrivals();
+
+    void processStatistics();
 };
 
 

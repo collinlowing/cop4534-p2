@@ -18,13 +18,17 @@ private:
     int MAX_SIZE;
     Event **priorityQueue;
     int current = -1; // empty by default
+    int numOfArrivals = 0;
 public:
     explicit PriorityQueue(int MAX_SIZE);
-    void enqueue(int type, double processTime);
+    void enqueue(int type, double interval);
+    void enqueue(Event* newEvent);
     Event* getTopEvent();
+    Event* getNextArrival();
     void dequeue();
-
     int getTopIndex();
+    bool isEmpty();
+    int getSize();
 };
 
 

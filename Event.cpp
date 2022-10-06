@@ -4,14 +4,19 @@
   Project 2
 
   Stores information for event handling.
-  Arrival or Departure, Priority, Process Time
+  Arrival or Departure, and time intervals for the lifetime of event
 ***************************************************************/
 
 #include "Event.hpp"
 
-Event::Event(int type, double processTime) {
+Event::Event(int type, double interval) {
     this->type = type;
-    this->processTime = processTime;
+    if(type == Event::ARRIVAL) {
+        this->arrivalTime = interval;
+    }
+    else {
+        this->departureTime = interval;
+    }
 }
 
 int Event::getType() const {
@@ -38,5 +43,18 @@ void Event::setServiceTimeStart(double serviceTimeStart) {
     this->serviceTimeStart = serviceTimeStart;
 }
 
+double Event::getArrivalTime() const {
+    return arrivalTime;
+}
 
+void Event::setArrivalTime(double arrivalTime) {
+    this->arrivalTime = arrivalTime;
+}
 
+double Event::getDepartureTime() const {
+    return departureTime;
+}
+
+void Event::setDepartureTime(double departureTime) {
+    this->departureTime = departureTime;
+}

@@ -32,30 +32,64 @@ double Simulation::getRandomFloat() {
 }
 
 void Simulation::startSimulation() {
-    // generate arrivals until M+1 arrivals
+    // generate first arrival
+    serverAvailableCount = M;
+    double arrivalInterval = getNextRandomInterval(lambda);
+    priorityQueue->enqueue(Event::ARRIVAL, arrivalInterval);
 
-    // add idle time until first arrival
+    while(!priorityQueue->isEmpty()) {
+        processNextEvent(priorityQueue->getTopEvent()->getType());
 
-    // assign events to server
-
-    // generate departure
-
-    // add service time
-
-    // if arrival occurs and servers available == M then add to FIFO queue
-
-    // when departure occurs, pop next arrival and assign to server.
+        if(isMoreArrivals() && priorityQueue->getSize() <= M + 1) {
+            arrivalInterval = getNextRandomInterval(lambda);
+            priorityQueue->enqueue(Event::ARRIVAL, arrivalInterval);
+        }
+    }
 
     printResults(); // finished
 }
 
-Event* Simulation::processArrival() {
-    //Event newArrival(Event::ARRIVAL);
-    return nullptr;
-}
+void Simulation::processNextEvent(int type) {
+    if(type == Event::ARRIVAL) {
+        if(serverAvailableCount > 0) {
+            --serverAvailableCount;
 
-Event* Simulation::processDeparture() {
-    return nullptr;
+            Event * event = priorityQueue->getTopEvent();
+
+            // calculate time intervals for departure
+            double startOfServiceTime = event->getArrivalTime() + totalSimulationTime;
+            double timeInterval = getNextRandomInterval(mu);
+            double departureTime = startOfServiceTime + timeInterval;
+
+            // set time intervals for event departure
+            event->setDepartureTime(departureTime);
+            event->setServiceTimeStart(startOfServiceTime);
+            event->setType(Event::DEPARTURE);
+
+            priorityQueue->dequeue(); // delete arrival
+            priorityQueue->enqueue(event); // add departure
+        }
+        else {
+            Event * event = priorityQueue->getTopEvent();
+            fifoQueue.insertBack(event);
+            priorityQueue->dequeue();
+        }
+    }
+    else if(type == Event::DEPARTURE) {
+        serverAvailableCount++;
+        processStatistics();
+
+        // check if events are waiting in fifoQueue
+        if(fifoQueue.size() == 0) {
+            Event * event = fifoQueue.getFront();
+            double startOfServiceTime = event->getServiceTimeStart();
+            double timeInterval = getNextRandomInterval(mu);
+            double departureTime = startOfServiceTime + timeInterval;
+            priorityQueue->enqueue(Event::DEPARTURE, departureTime);
+            --serverAvailableCount;
+            fifoQueue.deleteFront();
+        }
+    }
 }
 
 std::string Simulation::printResults() {
@@ -103,21 +137,42 @@ double Simulation::getProbabilityWaitForService() {
 }
 
 double Simulation::getPercentIdleTime() {
-    return idleTime / totalSimulationTime;
+    return totalIdleTime / totalSimulationTime;
 }
 
 double Simulation::getAverageTimeSpent() {
-    return (waitingTime + serviceTime) / numberOfEvents;
+    return (totalWaitTime + totalServiceTime) / numberOfEvents;
 }
 
 double Simulation::getUtilizationFactor() {
-    return serviceTime / (totalSimulationTime * M);
+    return totalServiceTime / (totalSimulationTime * M);
 }
 
 double Simulation::getAverageWaitTime() {
-    return waitingTime / numEventsWait;
+    return totalWaitTime / numEventsWait;
 }
 
 Simulation::~Simulation() {
     delete priorityQueue;
 }
+
+bool Simulation::isMoreArrivals() {
+    int remaining = numberOfEvents - (numberOfArrivals + numberOfDepartures);
+    return remaining > 0;
+}
+
+void Simulation::processStatistics() {
+    Event * event = priorityQueue->getTopEvent();
+    double currentWaitTime = event->getServiceTimeStart() - event->getArrivalTime();
+    if(currentWaitTime > 0) {
+        numEventsWait++;
+    }
+
+    totalWaitTime += currentWaitTime;
+    totalServiceTime += event->getDepartureTime() - event->getServiceTimeStart();
+    if(serverAvailableCount == M) {
+        Event* nextEvent = priorityQueue->getNextArrival();
+        totalIdleTime += nextEvent->getArrivalTime();
+    }
+}
+

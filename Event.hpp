@@ -4,7 +4,7 @@
   Project 2
 
   Stores information for event handling.
-  Arrival or Departure, Priority, Completion Time
+  Arrival or Departure, and time intervals for the lifetime of event
 ***************************************************************/
 
 #ifndef COP4534_P2_EVENT_HPP
@@ -14,27 +14,30 @@
 
 class Event {
 private:
-    int type = ARRIVAL;
+    int type;
     double serviceTimeStart = 0;
-public:
-    double getServiceTimeStart() const;
-
-    void setServiceTimeStart(double serviceTimeStart);
-
-private:
-    double processTime = 0;
+    double arrivalTime = 0;
+    double departureTime = 0;
 public:
     enum types{ARRIVAL, DEPARTURE};
 
-    Event(int type, double processTime);
+    Event(int type, double interval);
 
     int getType() const;
 
     void setType(int type);
 
-    double getProcessTime() const;
+    double getServiceTimeStart() const;
 
-    void setProcessTime(double processTime);
+    void setServiceTimeStart(double serviceTimeStart);
+
+    double getArrivalTime() const;
+
+    void setArrivalTime(double arrivalTime);
+
+    double getDepartureTime() const;
+
+    void setDepartureTime(double departureTime);
 };
 
 

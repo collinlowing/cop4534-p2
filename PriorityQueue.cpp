@@ -22,6 +22,12 @@ void PriorityQueue::enqueue(int type, double processTime) {
     priorityQueue[current] = new Event(type, processTime);
 }
 
+void PriorityQueue::enqueue(Event *newEvent) {
+    current++;
+
+    priorityQueue[current] = newEvent;
+}
+
 Event *PriorityQueue::getTopEvent() {
     double highestPriority = -1;
     std::size_t index = 0;
@@ -70,4 +76,16 @@ int PriorityQueue::getTopIndex() {
     }
 
     return index;
+}
+
+bool PriorityQueue::isEmpty() {
+    return current < 0;
+}
+
+int PriorityQueue::getSize() {
+    return current + 1;
+}
+
+Event *PriorityQueue::getNextArrival() {
+    return nullptr;
 }
