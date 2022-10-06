@@ -161,10 +161,6 @@ double Simulation::getAverageWaitTime() {
     return totalWaitTime / numEventsWait;
 }
 
-Simulation::~Simulation() {
-    delete priorityQueue;
-}
-
 bool Simulation::isMoreArrivals() {
     int remaining = numberOfEvents - (numberOfArrivals + numberOfDepartures);
     return remaining > 0;
@@ -186,3 +182,6 @@ void Simulation::processStatistics() {
     }
 }
 
+Simulation::~Simulation() {
+    //delete priorityQueue;
+}

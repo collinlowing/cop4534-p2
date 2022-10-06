@@ -57,13 +57,13 @@ public:
 
     double getAverageTimeSpent();
 
-    ~Simulation();
-
     void processNextEvent(int type);
 
     bool isMoreArrivals();
 
     void processStatistics();
+
+    ~Simulation();
 };
 
 
