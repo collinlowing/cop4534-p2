@@ -6,7 +6,6 @@
   Perform calculations using values given by test files
 ***************************************************************/
 
-#include <cmath>
 #include "AnalyticalModel.hpp"
 
 AnalyticalModel::AnalyticalModel(int lambda, int mu, int M) {

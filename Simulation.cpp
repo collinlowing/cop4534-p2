@@ -76,11 +76,13 @@ void Simulation::processNextEvent(int type) {
         }
     }
     else if(type == Event::DEPARTURE) {
+        Event * departure = priorityQueue->getTopEvent();
+        priorityQueue->dequeue(); // delete departure
         serverAvailableCount++;
-        processStatistics();
+        processStatistics(departure);
 
         // check if events are waiting in fifoQueue
-        if(fifoQueue.size() == 0) {
+        if(fifoQueue.size() > 0) {
             Event * event = fifoQueue.getFront();
             // calculate time intervals for departure
             double startOfServiceTime = event->getArrivalTime() + totalSimulationTime;
@@ -92,7 +94,6 @@ void Simulation::processNextEvent(int type) {
             event->setServiceTimeStart(startOfServiceTime);
             event->setType(Event::DEPARTURE);
 
-            priorityQueue->dequeue(); // delete arrival
             priorityQueue->enqueue(event); // add departure
 
             --serverAvailableCount;
@@ -142,7 +143,7 @@ std::string Simulation::printResults() {
 }
 
 double Simulation::getProbabilityWaitForService() {
-    return numEventsWait / numberOfEvents;
+    return (double) numEventsWait / numberOfEvents;
 }
 
 double Simulation::getPercentIdleTime() {
@@ -166,19 +167,18 @@ bool Simulation::isMoreArrivals() {
     return remaining > 0;
 }
 
-void Simulation::processStatistics() {
-    Event * event = priorityQueue->getTopEvent();
-    double currentWaitTime = event->getServiceTimeStart() - event->getArrivalTime();
+void Simulation::processStatistics(Event* departure) {
+    double currentWaitTime = departure->getServiceTimeStart() - departure->getArrivalTime();
 
     if(currentWaitTime > 0) {
         numEventsWait++;
     }
 
     totalWaitTime += currentWaitTime;
-    totalServiceTime += event->getDepartureTime() - event->getServiceTimeStart();
+    totalServiceTime += departure->getDepartureTime() - departure->getServiceTimeStart();
     if(serverAvailableCount == M && !priorityQueue->isEmpty()) {
-        Event* nextEvent = priorityQueue->getNextArrival();
-        totalIdleTime += nextEvent->getArrivalTime();
+        Event * event = priorityQueue->getTopEvent(); // get next arrival
+        totalIdleTime += event->getArrivalTime();
     }
 }
 

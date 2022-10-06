@@ -9,6 +9,7 @@
 #ifndef COP4534_P2_ANALYTICALMODEL_HPP
 #define COP4534_P2_ANALYTICALMODEL_HPP
 
+#include <cmath>
 
 class AnalyticalModel {
 private:

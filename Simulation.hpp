@@ -23,6 +23,7 @@ private:
     int mu;
     int M;
     int numberOfEvents;
+    int executedEvents = 0;
     int numberOfArrivals = 0;
     int numberOfDepartures = 0;
     int serverAvailableCount = 0;
@@ -61,7 +62,7 @@ public:
 
     bool isMoreArrivals();
 
-    void processStatistics();
+    void processStatistics(Event* departure);
 
     ~Simulation();
 };
