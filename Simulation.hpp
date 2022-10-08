@@ -15,7 +15,7 @@
 #include <sstream>
 #include "AnalyticalModel.hpp"
 #include "FIFO_Queue.hpp"
-#include "PriorityQueue.hpp"
+#include "Heap.hpp"
 
 class Simulation {
 private:
@@ -35,7 +35,7 @@ private:
     const int INTERVAL_MIN = 0;
     const int INTERVAL_MAX = 1;
     const int MAX_SIZE = 200;
-    PriorityQueue* priorityQueue;
+    Heap* heap;
     FIFO_Queue fifoQueue;
 public:
     Simulation(int lambda, int mu, int M, int numberOfEvents);

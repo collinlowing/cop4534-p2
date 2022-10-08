@@ -14,7 +14,7 @@
 
 class Event {
 private:
-    int type;
+    int type = 1;
     double serviceTimeStart = 0;
     double arrivalTime = 0;
     double departureTime = 0;
@@ -23,19 +23,19 @@ public:
 
     Event(int type, double interval);
 
-    int getType() const;
+    int getType();
 
     void setType(int type);
 
-    double getServiceTimeStart() const;
+    double getServiceTimeStart();
 
     void setServiceTimeStart(double serviceTimeStart);
 
-    double getArrivalTime() const;
+    double getArrivalTime();
 
     void setArrivalTime(double arrivalTime);
 
-    double getDepartureTime() const;
+    double getDepartureTime();
 
     void setDepartureTime(double departureTime);
 

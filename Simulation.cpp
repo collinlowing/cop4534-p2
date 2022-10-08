@@ -13,7 +13,7 @@ Simulation::Simulation(int lambda, int mu, int M, int numberOfEvents) {
     this->mu = mu;
     this->M = M;
     this->numberOfEvents = numberOfEvents;
-    priorityQueue = new PriorityQueue(MAX_SIZE);
+    this->heap = new Heap(MAX_SIZE);
 }
 
 double Simulation::getNextRandomInterval(double avg) {
@@ -32,17 +32,18 @@ double Simulation::getRandomFloat() {
 }
 
 void Simulation::startSimulation() {
-    // generate first arrival
     serverAvailableCount = M;
+    // generate first arrival
     double arrivalInterval = getNextRandomInterval(lambda);
-    priorityQueue->enqueue(Event::ARRIVAL, arrivalInterval);
+    heap->insert(new Event(Event::ARRIVAL, arrivalInterval));
 
-    while(!priorityQueue->isEmpty()) {
-        processNextEvent(priorityQueue->getTopEvent()->getType());
+    while(!heap->isEmpty()) {
+        std::cout << heap->getMin()->getType() << std::endl;
+        processNextEvent(heap->getMin()->getType());
 
-        if(isMoreArrivals() && priorityQueue->getSize() <= M + 1) {
+        if(heap->getSize() <= M + 1) {
             arrivalInterval = getNextRandomInterval(lambda);
-            priorityQueue->enqueue(Event::ARRIVAL, arrivalInterval);
+            heap->insert(new Event(Event::ARRIVAL, arrivalInterval));
         }
     }
 
@@ -54,7 +55,7 @@ void Simulation::processNextEvent(int type) {
         if(serverAvailableCount > 0) {
             --serverAvailableCount;
 
-            Event * event = priorityQueue->getTopEvent();
+            Event * event = heap->popMin();
 
             // calculate time intervals for departure
             double startOfServiceTime = event->getArrivalTime() + totalSimulationTime;
@@ -66,18 +67,16 @@ void Simulation::processNextEvent(int type) {
             event->setServiceTimeStart(startOfServiceTime);
             event->setType(Event::DEPARTURE);
 
-            priorityQueue->dequeue(); // delete arrival
-            priorityQueue->enqueue(event); // add departure
+            heap->insert(event); // add departure
         }
         else {
-            Event * event = priorityQueue->getTopEvent();
+            Event * event = heap->getMin();
             fifoQueue.insertBack(event);
-            priorityQueue->dequeue();
+            heap->popMin();
         }
     }
     else if(type == Event::DEPARTURE) {
-        Event * departure = priorityQueue->getTopEvent();
-        priorityQueue->dequeue(); // delete departure
+        Event * departure = heap->popMin(); // get departure and delete it from heap
         serverAvailableCount++;
         processStatistics(departure);
 
@@ -94,7 +93,7 @@ void Simulation::processNextEvent(int type) {
             event->setServiceTimeStart(startOfServiceTime);
             event->setType(Event::DEPARTURE);
 
-            priorityQueue->enqueue(event); // add departure
+            heap->insert(event); // add departure
 
             --serverAvailableCount;
             fifoQueue.deleteFront();
@@ -176,12 +175,12 @@ void Simulation::processStatistics(Event* departure) {
 
     totalWaitTime += currentWaitTime;
     totalServiceTime += departure->getDepartureTime() - departure->getServiceTimeStart();
-    if(serverAvailableCount == M && !priorityQueue->isEmpty()) {
-        Event * event = priorityQueue->getTopEvent(); // get next arrival
+    if(serverAvailableCount == M && !heap->isEmpty()) {
+        Event * event = heap->getMin(); // get next arrival
         totalIdleTime += event->getArrivalTime();
     }
 }
 
 Simulation::~Simulation() {
-    //delete priorityQueue;
+    delete heap;
 }

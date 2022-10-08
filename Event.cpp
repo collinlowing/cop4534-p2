@@ -7,6 +7,7 @@
   Arrival or Departure, and time intervals for the lifetime of event
 ***************************************************************/
 
+#include <iostream>
 #include "Event.hpp"
 
 Event::Event(int type, double interval) {
@@ -19,7 +20,8 @@ Event::Event(int type, double interval) {
     }
 }
 
-int Event::getType() const {
+int Event::getType() {
+    std::cout << type << std::endl;
     return type;
 }
 
@@ -27,7 +29,7 @@ void Event::setType(int type) {
     this->type = type;
 }
 
-double Event::getServiceTimeStart() const {
+double Event::getServiceTimeStart() {
     return serviceTimeStart;
 }
 
@@ -35,7 +37,7 @@ void Event::setServiceTimeStart(double serviceTimeStart) {
     this->serviceTimeStart = serviceTimeStart;
 }
 
-double Event::getArrivalTime() const {
+double Event::getArrivalTime() {
     return arrivalTime;
 }
 
@@ -43,7 +45,7 @@ void Event::setArrivalTime(double arrivalTime) {
     this->arrivalTime = arrivalTime;
 }
 
-double Event::getDepartureTime() const {
+double Event::getDepartureTime() {
     return departureTime;
 }
 
