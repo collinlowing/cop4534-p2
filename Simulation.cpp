@@ -32,16 +32,17 @@ double Simulation::getRandomFloat() {
 }
 
 void Simulation::startSimulation() {
+    // initialize server count
     serverAvailableCount = M;
     // generate first arrival
     double arrivalInterval = getNextRandomInterval(lambda);
     Event* firstEvent = new Event(Event::ARRIVAL, arrivalInterval);
     heap->insert(firstEvent);
-    executedEvents++;
 
-    while(!heap->isEmpty()) {
+
+    while(!heap->isEmpty() && isMoreArrivals()) {
         Event* nextEvent = heap->getMin();
-        std::cout << nextEvent->getType() << std::endl;
+        std::cout << nextEvent->getInterval() << std::endl;
         processNextEvent(nextEvent->getType());
 
         if(heap->getSize() <= M + 1 && isMoreArrivals()) {
@@ -74,10 +75,9 @@ void Simulation::processNextEvent(int type) {
 
             heap->insert(event); // add departure
         }
-        else {
-            Event * event = heap->getMin();
+        else { // servers are full, add to FIFO Queue
+            Event * event = heap->popMin();
             fifoQueue.insertBack(event);
-            heap->popMin();
         }
     }
     else if(type == Event::DEPARTURE) {
@@ -89,7 +89,7 @@ void Simulation::processNextEvent(int type) {
         if(fifoQueue.size() > 0) {
             Event * event = fifoQueue.getFront();
             // calculate time intervals for departure
-            double startOfServiceTime = event->getArrivalTime() + totalSimulationTime;
+            double startOfServiceTime = event->getArrivalTime();
             double timeInterval = getNextRandomInterval(mu);
             double departureTime = startOfServiceTime + timeInterval;
 
@@ -171,14 +171,14 @@ bool Simulation::isMoreArrivals() {
 }
 
 void Simulation::processStatistics(Event* departure) {
-    double currentWaitTime = departure->getServiceTimeStart() - departure->getArrivalTime();
+    double currentWaitTime = std::abs(departure->getServiceTimeStart() - departure->getArrivalTime());
 
     if(currentWaitTime > 0) {
         numEventsWait++;
     }
 
     totalWaitTime += currentWaitTime;
-    totalServiceTime += departure->getDepartureTime() - departure->getServiceTimeStart();
+    totalServiceTime += departure->getDepartureTime() + departure->getServiceTimeStart();
     if(serverAvailableCount == M && !heap->isEmpty()) {
         Event * event = heap->getMin(); // get next arrival
         totalIdleTime += event->getArrivalTime();

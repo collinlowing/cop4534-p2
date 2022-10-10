@@ -34,17 +34,6 @@ void Heap::insert(Event *event) {
         swap(heap[i], heap[parent(i)]);
         i = parent(i);
     }
-
-    /*std::cout << size << std::endl;
-    int index = size++;
-    std::cout << size << std::endl;
-    heap[index] = event;
-    while(event->getInterval() < heap[index / 2]->getInterval()) {
-        std::cout << event->getInterval() << " < " << heap[index / 2]->getInterval() << std::endl;
-        heap[index] = heap[index / 2];
-        index /= 2;
-    }
-    heap[index] = event;*/
 }
 
 Event *Heap::popMin() {
@@ -62,11 +51,6 @@ Event *Heap::popMin() {
     heapify(0);
 
     return rootNode;
-
-    /*Event* temp = getMin();
-    heap[1] = heap[size--];
-    percolateDown(1);
-    return temp;*/
 }
 
 void Heap::clear() {
@@ -77,46 +61,10 @@ void Heap::clear() {
     size = 0;
 }
 
-void Heap::constructHeap(Event** array, int initializeSize) {
-    int i;
-    for(i = 0; i < initializeSize; i++) {
-        heap[i + 1] = array[i];
-    }
-    buildHeap();
-}
-
-void Heap::buildHeap() {
-    for(int i = size / 2; i > 0; i--) {
-        percolateDown(i);
-    }
-}
-
-void Heap::percolateDown(int index) {
-    int childIndex;
-    Event* temp = heap[index];
-
-    while(index * 2 <= size) {
-        childIndex = index * 2;
-        if(childIndex != size
-            && heap[childIndex + 1]->getInterval() < heap[childIndex]->getInterval()) {
-                childIndex++;
-        }
-        if(heap[childIndex]->getInterval() < temp->getInterval()) {
-            heap[index] = heap[childIndex];
-        }
-        else {
-            break;
-        }
-        index = childIndex;
-    }
-    heap[index] = temp;
-}
-
-/*
 Heap::~Heap() {
     clear();
 }
-*/
+
 
 int Heap::getSize() {
     return size;

@@ -21,12 +21,7 @@ public:
     void insert(Event* event);
     Event* popMin();
     void clear();
-    void constructHeap(Event** array, int initializeSize);
-    void buildHeap();
-    void percolateDown(int index);
     int getSize();
-
-    //~Heap();
     void swap(Event *x, Event *y);
     int parent(int i) { return (i-1)/2; }
     // to get index of left child of node at index i
@@ -34,7 +29,7 @@ public:
     // to get index of right child of node at index i
     int right(int i) { return (2*i + 2); }
     void heapify(int index);
-
+    ~Heap();
 };
 
 

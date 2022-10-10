@@ -13,6 +13,7 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include <cmath>
 #include "AnalyticalModel.hpp"
 #include "FIFO_Queue.hpp"
 #include "Heap.hpp"

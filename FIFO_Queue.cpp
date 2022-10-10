@@ -20,6 +20,7 @@ void FIFO_Queue::insertBack(Event *event) {
 
 void FIFO_Queue::deleteFront() {
     queue.erase(queue.begin());
+    queueSize--;
 }
 
 Event *FIFO_Queue::getFront() {

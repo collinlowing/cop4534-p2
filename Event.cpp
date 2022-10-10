@@ -21,7 +21,6 @@ Event::Event(int type, double interval) {
 }
 
 int Event::getType() {
-    //std::cout << type << std::endl;
     return type;
 }
 
