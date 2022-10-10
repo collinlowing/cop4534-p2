@@ -11,7 +11,6 @@
 #define COP4534_P2_EVENT_HPP
 
 
-
 class Event {
 private:
     int type = 1;
@@ -19,7 +18,9 @@ private:
     double arrivalTime = 0;
     double departureTime = 0;
 public:
-    enum types{ARRIVAL, DEPARTURE};
+    enum types {
+        ARRIVAL, DEPARTURE
+    };
 
     Event(int type, double interval);
 

@@ -34,11 +34,11 @@ private:
     const int INTERVAL_MIN = 0;
     const int INTERVAL_MAX = 1;
     const int MAX_SIZE = 200;
-    Heap* heap;
+    Heap *heap;
     FIFO_Queue fifoQueue;
 public:
     Simulation(int lambda, int mu, int M, int numberOfEvents);
-    
+
     double getNextRandomInterval(double avg);
 
     double getRandomFloat();
@@ -61,9 +61,7 @@ public:
 
     bool isMoreArrivals();
 
-    void processStatistics(Event* departure);
-
-    ~Simulation();
+    void processStatistics(Event *departure);
 };
 
 

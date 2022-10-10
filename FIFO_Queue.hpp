@@ -15,14 +15,18 @@
 
 class FIFO_Queue {
 private:
-    std::vector<Event*> queue;
-    Event * back;
+    std::vector<Event *> queue;
+    Event *back;
     int queueSize;
 public:
     FIFO_Queue();
-    void insertBack(Event* event);
+
+    void insertBack(Event *event);
+
     void deleteFront();
+
     Event *getFront();
+
     int size();
 };
 

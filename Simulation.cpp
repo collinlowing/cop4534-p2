@@ -8,22 +8,24 @@
 
 #include "Simulation.hpp"
 
+// sets values for simulation
 Simulation::Simulation(int lambda, int mu, int M, int numberOfEvents) {
     this->lambda = lambda;
     this->mu = mu;
     this->M = M;
     this->numberOfEvents = numberOfEvents;
-    this->heap = new Heap(MAX_SIZE);
+    this->heap = new Heap(MAX_SIZE); // initialize heap
 }
 
 double Simulation::getNextRandomInterval(double avg) {
     double f = getRandomFloat();
 
-    double intervalTime = -1 * (1.0/avg) * log(f);
+    double intervalTime = -1 * (1.0 / avg) * log(f);
 
     return intervalTime;
 }
 
+// intermediate method for getNextRandomInterval
 double Simulation::getRandomFloat() {
     std::random_device rd;
     std::default_random_engine eng(rd());
@@ -31,41 +33,47 @@ double Simulation::getRandomFloat() {
     return distr(eng);
 }
 
+// runs the simulation loop
 void Simulation::startSimulation() {
     // initialize server count
     serverAvailableCount = M;
+
     // generate first arrival
     double arrivalInterval = getNextRandomInterval(lambda);
-    Event* firstEvent = new Event(Event::ARRIVAL, arrivalInterval);
+    totalSimulationTime += arrivalInterval;
+    Event *firstEvent = new Event(Event::ARRIVAL, arrivalInterval);
+    firstEvent->setArrivalTime(arrivalInterval);
     heap->insert(firstEvent);
 
-
-    while(!heap->isEmpty() && isMoreArrivals()) {
-        Event* nextEvent = heap->getMin();
-        std::cout << nextEvent->getInterval() << std::endl;
+    // main simulation loop
+    while (!heap->isEmpty() && isMoreArrivals()) {
+        Event *nextEvent = heap->getMin();
         processNextEvent(nextEvent->getType());
 
-        if(heap->getSize() <= M + 1 && isMoreArrivals()) {
+        // generates new arrivals
+        if (heap->getSize() <= M + 1 && isMoreArrivals()) {
             arrivalInterval = getNextRandomInterval(lambda);
-            Event* newEvent = new Event(Event::ARRIVAL, arrivalInterval);
+            totalSimulationTime += arrivalInterval;
+            Event *newEvent = new Event(Event::ARRIVAL, arrivalInterval);
+            newEvent->setArrivalTime(arrivalInterval + totalSimulationTime);
             heap->insert(newEvent);
-            executedEvents++;
         }
     }
 
-    printResults(); // finished
+    printResults(); // finished prints results
 }
 
 void Simulation::processNextEvent(int type) {
-    if(type == Event::ARRIVAL) {
-        if(serverAvailableCount > 0) {
+    if (type == Event::ARRIVAL) { // process arrival
+        if (serverAvailableCount > 0) {
             --serverAvailableCount;
 
-            Event * event = heap->popMin();
+            Event *event = heap->popMin(); // get arrival and remove it from the heap
 
             // calculate time intervals for departure
             double startOfServiceTime = event->getArrivalTime() + totalSimulationTime;
             double timeInterval = getNextRandomInterval(mu);
+            totalSimulationTime += timeInterval;
             double departureTime = startOfServiceTime + timeInterval;
 
             // set time intervals for event departure
@@ -73,24 +81,23 @@ void Simulation::processNextEvent(int type) {
             event->setServiceTimeStart(startOfServiceTime);
             event->setType(Event::DEPARTURE);
 
-            heap->insert(event); // add departure
-        }
-        else { // servers are full, add to FIFO Queue
-            Event * event = heap->popMin();
+            heap->insert(event); // add departure to heap
+        } else { // servers are full, move from Heap to FIFO Queue
+            Event *event = heap->popMin();
             fifoQueue.insertBack(event);
         }
-    }
-    else if(type == Event::DEPARTURE) {
-        Event * departure = heap->popMin(); // get departure and delete it from heap
+    } else if (type == Event::DEPARTURE) { // process departure
+        Event *departure = heap->popMin(); // get departure and delete it from heap
         serverAvailableCount++;
         processStatistics(departure);
 
         // check if events are waiting in fifoQueue
-        if(fifoQueue.size() > 0) {
-            Event * event = fifoQueue.getFront();
+        if (fifoQueue.size() > 0) {
+            Event *event = fifoQueue.getFront();
             // calculate time intervals for departure
-            double startOfServiceTime = event->getArrivalTime();
+            double startOfServiceTime = event->getArrivalTime() + totalSimulationTime;
             double timeInterval = getNextRandomInterval(mu);
+            totalSimulationTime += timeInterval;
             double departureTime = startOfServiceTime + timeInterval;
 
             // set time intervals for event departure
@@ -119,12 +126,12 @@ std::string Simulation::printResults() {
     results << std::fixed;
     results << std::setprecision(4);
     results << "Theoretical Results:" << "\n";
-    results << "Po = "  << theoryPo   << "\n";
-    results << "L = "   << theoryL    << "\n";
-    results << "W = "   << theoryW    << "\n";
-    results << "Lq = "  << theoryLq   << "\n";
-    results << "Wq = "  << theoryWq   << "\n";
-    results << "rho = " << theoryRho  << "\n";
+    results << "Po = " << theoryPo << "\n";
+    results << "L = " << theoryL << "\n";
+    results << "W = " << theoryW << "\n";
+    results << "Lq = " << theoryLq << "\n";
+    results << "Wq = " << theoryWq << "\n";
+    results << "rho = " << theoryRho << "\n";
     results << std::endl;
 
     double simPo = getPercentIdleTime();
@@ -134,12 +141,12 @@ std::string Simulation::printResults() {
     double probabilityWaitForService = getProbabilityWaitForService();
 
     results << "Simulation Results:" << "\n";
-    results << "Po = "  << simPo     << "\n";
-    results << "W = "   << simW      << "\n";
-    results << "Wq = "  << simWq     << "\n";
-    results << "rho = " << simRho    << "\n";
+    results << "Po = " << simPo << "\n";
+    results << "W = " << simW << "\n";
+    results << "Wq = " << simWq << "\n";
+    results << "rho = " << simRho << "\n";
     results << "probability of having to wait for service = "
-            <<  probabilityWaitForService << std::endl;
+            << probabilityWaitForService << std::endl << std::endl;
 
     std::cout << results.str();
 
@@ -147,7 +154,9 @@ std::string Simulation::printResults() {
 }
 
 double Simulation::getProbabilityWaitForService() {
-    return (double) numEventsWait / numberOfEvents;
+    double top = numEventsWait;
+    double bottom = numberOfEvents;
+    return top / bottom;
 }
 
 double Simulation::getPercentIdleTime() {
@@ -167,24 +176,22 @@ double Simulation::getAverageWaitTime() {
 }
 
 bool Simulation::isMoreArrivals() {
-    return executedEvents <= numberOfEvents;
+    return executedEvents < numberOfEvents;
 }
 
-void Simulation::processStatistics(Event* departure) {
-    double currentWaitTime = std::abs(departure->getServiceTimeStart() - departure->getArrivalTime());
+void Simulation::processStatistics(Event *departure) {
+    double currentWaitTime = departure->getServiceTimeStart() - departure->getArrivalTime();
 
-    if(currentWaitTime > 0) {
+    if (currentWaitTime > 0) { // if waiting, add to number of events wait count
         numEventsWait++;
     }
 
     totalWaitTime += currentWaitTime;
-    totalServiceTime += departure->getDepartureTime() + departure->getServiceTimeStart();
-    if(serverAvailableCount == M && !heap->isEmpty()) {
-        Event * event = heap->getMin(); // get next arrival
+    totalServiceTime += std::abs(departure->getDepartureTime() -
+                                 departure->getServiceTimeStart()); // time interval it takes to leave system after arrival
+    if (serverAvailableCount == M && !heap->isEmpty()) { // idle time where no events are being served or waiting
+        Event *event = heap->getMin(); // get next arrival for idle time
         totalIdleTime += event->getArrivalTime();
     }
-}
-
-Simulation::~Simulation() {
-    delete heap;
+    executedEvents++;
 }

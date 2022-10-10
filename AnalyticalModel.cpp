@@ -20,8 +20,7 @@ double AnalyticalModel::getPercentIdleTime() {
     double denominator = 0;
 
     // calculate summation from 0 to M-1
-    for(int i = 0; i <= M - 1; i++)
-    {
+    for (int i = 0; i <= M - 1; i++) {
         double factorialI = getFactorial(i);
         double powerBase = lambda / mu;
 
@@ -77,7 +76,7 @@ double AnalyticalModel::getProportionOfResourcesUsedByArrivals() {
 double AnalyticalModel::getFactorial(int number) {
     double factorial = 1;
 
-    for(int i = 1; i <= number; i++) {
+    for (int i = 1; i <= number; i++) {
         factorial *= i;
     }
 
@@ -87,7 +86,7 @@ double AnalyticalModel::getFactorial(int number) {
 double AnalyticalModel::getPower(double base, double exponent) {
     double result = 1;
 
-    while(exponent > 0) {
+    while (exponent > 0) {
         result *= base;
         --exponent;
     }

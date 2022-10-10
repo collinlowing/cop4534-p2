@@ -15,13 +15,13 @@ std::vector<int> FileParser::getTestValuesFromFile(std::string fileName) {
     std::ifstream fileInputStream(fileName);
 
     // if fileInputStream is not opened
-    if(!fileInputStream.is_open()) {
+    if (!fileInputStream.is_open()) {
         std::cout << "fatal error: " << fileName << " could not be opened." << std::endl;
         return values;
     }
 
     // read lines from file
-    while(std::getline(fileInputStream, line)) {
+    while (std::getline(fileInputStream, line)) {
         // convert string to int value
         values.push_back(std::stoi(line));
         i++;

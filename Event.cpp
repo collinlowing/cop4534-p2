@@ -10,12 +10,12 @@
 #include <iostream>
 #include "Event.hpp"
 
+// initializes event variables
 Event::Event(int type, double interval) {
     this->type = type;
-    if(type == Event::ARRIVAL) {
+    if (type == Event::ARRIVAL) {
         this->arrivalTime = interval;
-    }
-    else {
+    } else {
         this->departureTime = interval;
     }
 }
@@ -52,12 +52,12 @@ void Event::setDepartureTime(double departureTime) {
     this->departureTime = departureTime;
 }
 
+// returns corresponding time interval, either arrival time ore departure time
 double Event::getInterval() {
     double interval;
-    if(type == Event::ARRIVAL) {
+    if (type == Event::ARRIVAL) {
         interval = arrivalTime;
-    }
-    else {
+    } else {
         interval = departureTime;
     }
 

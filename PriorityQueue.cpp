@@ -11,7 +11,7 @@
 
 PriorityQueue::PriorityQueue(int MAX_SIZE) {
     this->MAX_SIZE = MAX_SIZE;
-    priorityQueue = new Event*[MAX_SIZE];
+    priorityQueue = new Event *[MAX_SIZE];
 }
 
 void PriorityQueue::enqueue(int type, double processTime) {
@@ -32,16 +32,15 @@ Event *PriorityQueue::getTopEvent() {
     double highestPriority = -1;
     std::size_t index = 0;
 
-    for(int i = 0; i <= current; i++) {
+    for (int i = 0; i <= current; i++) {
         double interval = priorityQueue[i]->getInterval();
 
-        if(highestPriority == interval
+        if (highestPriority == interval
             && priorityQueue[index]->getInterval()
-                    > interval) {
+               > interval) {
             highestPriority = interval;
             index = i;
-        }
-        else if (highestPriority > interval) {
+        } else if (highestPriority > interval) {
             highestPriority = interval;
             index = i;
         }
@@ -53,7 +52,7 @@ Event *PriorityQueue::getTopEvent() {
 void PriorityQueue::dequeue() {
     int index = getTopIndex();
 
-    for(int i = index; i < current; i++) {
+    for (int i = index; i < current; i++) {
         priorityQueue[i] = priorityQueue[i + 1];
     }
 
@@ -64,15 +63,14 @@ int PriorityQueue::getTopIndex() {
     int highestPriority = -1;
     std::size_t index = 0;
 
-    for(int i = 0; i <= current; i++) {
+    for (int i = 0; i <= current; i++) {
         double interval = priorityQueue[i]->getInterval();
-        if(highestPriority == interval
-           && priorityQueue[index]->getInterval()
-              > interval) {
+        if (highestPriority == interval
+            && priorityQueue[index]->getInterval()
+               > interval) {
             highestPriority = interval;
             index = i;
-        }
-        else if (highestPriority > interval) {
+        } else if (highestPriority > interval) {
             highestPriority = interval;
             index = i;
         }
