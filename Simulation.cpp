@@ -35,15 +35,20 @@ void Simulation::startSimulation() {
     serverAvailableCount = M;
     // generate first arrival
     double arrivalInterval = getNextRandomInterval(lambda);
-    heap->insert(new Event(Event::ARRIVAL, arrivalInterval));
+    Event* firstEvent = new Event(Event::ARRIVAL, arrivalInterval);
+    heap->insert(firstEvent);
+    executedEvents++;
 
     while(!heap->isEmpty()) {
-        std::cout << heap->getMin()->getType() << std::endl;
-        processNextEvent(heap->getMin()->getType());
+        Event* nextEvent = heap->getMin();
+        std::cout << nextEvent->getType() << std::endl;
+        processNextEvent(nextEvent->getType());
 
-        if(heap->getSize() <= M + 1) {
+        if(heap->getSize() <= M + 1 && isMoreArrivals()) {
             arrivalInterval = getNextRandomInterval(lambda);
-            heap->insert(new Event(Event::ARRIVAL, arrivalInterval));
+            Event* newEvent = new Event(Event::ARRIVAL, arrivalInterval);
+            heap->insert(newEvent);
+            executedEvents++;
         }
     }
 
@@ -162,8 +167,7 @@ double Simulation::getAverageWaitTime() {
 }
 
 bool Simulation::isMoreArrivals() {
-    int remaining = numberOfEvents - (numberOfArrivals + numberOfDepartures);
-    return remaining > 0;
+    return executedEvents <= numberOfEvents;
 }
 
 void Simulation::processStatistics(Event* departure) {

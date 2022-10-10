@@ -7,6 +7,7 @@
 
 
 #include "Event.hpp"
+#include "iostream"
 
 class Heap {
 private:
@@ -14,7 +15,7 @@ private:
     int size = 0;
     Event** heap;
 public:
-    Heap(int maxSize);
+    explicit Heap(int maxSize);
     bool isEmpty();
     Event* getMin();
     void insert(Event* event);
@@ -24,7 +25,16 @@ public:
     void buildHeap();
     void percolateDown(int index);
     int getSize();
-    ~Heap();
+
+    //~Heap();
+    void swap(Event *x, Event *y);
+    int parent(int i) { return (i-1)/2; }
+    // to get index of left child of node at index i
+    int left(int i) { return (2*i + 1); }
+    // to get index of right child of node at index i
+    int right(int i) { return (2*i + 2); }
+    void heapify(int index);
+
 };
 
 

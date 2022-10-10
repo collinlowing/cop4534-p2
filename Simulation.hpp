@@ -24,8 +24,6 @@ private:
     int M;
     int numberOfEvents;
     int executedEvents = 0;
-    int numberOfArrivals = 0;
-    int numberOfDepartures = 0;
     int serverAvailableCount = 0;
     double totalSimulationTime = 0;
     int numEventsWait = 0;
